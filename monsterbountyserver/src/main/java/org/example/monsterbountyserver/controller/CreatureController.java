@@ -1,23 +1,66 @@
 package org.example.monsterbountyserver.controller;
 
 import org.example.monsterbountyserver.entity.Creature;
+import org.example.monsterbountyserver.entity.Habitat;
 import org.example.monsterbountyserver.repository.CreatureRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.example.monsterbountyserver.repository.HabitatRepository;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
+@RequestMapping("/api/creatures")
 public class CreatureController {
 
     private final CreatureRepository creatureRepository;
+    private final HabitatRepository habitatRepository;
 
-    public CreatureController(CreatureRepository creatureRepository) {
+    public CreatureController(CreatureRepository creatureRepository, HabitatRepository habitatRepository) {
         this.creatureRepository = creatureRepository;
+        this.habitatRepository = habitatRepository;
     }
 
-    @GetMapping("/creatures")
+    @GetMapping
     public List<Creature> getAllCreatures() {
         return creatureRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Creature> getCreatureById(@PathVariable Long id) {
+        Optional<Creature> creature = creatureRepository.findById(id);
+
+        if (creature.isPresent()) {
+            return ResponseEntity.ok(creature.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping
+    public Creature createCreature(@RequestBody Map<String, String> body) {
+        Habitat habitat = habitatRepository.findAll().stream().findFirst().orElseGet(() -> {
+            Habitat h = new Habitat();
+            h.setBiome("FOREST");
+            h.setLocation("Default Habitat");
+            h.setMinTempC(10);
+            h.setMaxTempC(25);
+            h.setCreatedAt(LocalDateTime.now());
+            return habitatRepository.save(h);
+        });
+
+        Creature creature = new Creature();
+        creature.setName(body.get("name"));
+        creature.setSpecies(body.get("species"));
+        creature.setDangerLevel(body.get("dangerLevel"));
+        creature.setCondition(body.get("condition"));
+        creature.setNotes(body.get("notes"));
+        creature.setCreatedAt(LocalDateTime.now());
+        creature.setHabitat(habitat);
+
+        return creatureRepository.save(creature);
     }
 }
