@@ -66,4 +66,23 @@ public class CreatureController {
 
         return ResponseEntity.status(201).body(savedCreature);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Creature> updateCreature(@PathVariable Long id, @RequestBody Creature updated) {
+
+        Optional<Creature> creatureOpt = creatureRepository.findById(id);
+
+        if (creatureOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Creature creature = creatureOpt.get();
+        creature.setName(updated.getName());
+        creature.setSpecies(updated.getSpecies());
+        creature.setDangerLevel(updated.getDangerLevel());
+        creature.setCondition(updated.getCondition());
+        creature.setNotes(updated.getNotes());
+
+        return ResponseEntity.ok(creatureRepository.save(creature));
+    }
 }
