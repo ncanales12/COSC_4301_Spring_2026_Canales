@@ -41,7 +41,8 @@ public class CreatureController {
     }
 
     @PostMapping
-    public Creature createCreature(@RequestBody Map<String, String> body) {
+    public ResponseEntity<Creature> createCreature(@RequestBody Map<String, String> body) {
+
         Habitat habitat = habitatRepository.findAll().stream().findFirst().orElseGet(() -> {
             Habitat h = new Habitat();
             h.setBiome("FOREST");
@@ -61,6 +62,8 @@ public class CreatureController {
         creature.setCreatedAt(LocalDateTime.now());
         creature.setHabitat(habitat);
 
-        return creatureRepository.save(creature);
+        Creature savedCreature = creatureRepository.save(creature);
+
+        return ResponseEntity.status(201).body(savedCreature);
     }
 }
