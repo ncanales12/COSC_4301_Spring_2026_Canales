@@ -1,0 +1,1 @@
+CREATE INDEX idx_habitats_location ON habitats(location);

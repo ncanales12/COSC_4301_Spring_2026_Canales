@@ -1,3 +1,19 @@
+/*
+ * CreatureController
+ *
+ * This REST controller handles HTTP requests for the Creature API.
+ * It provides endpoints to:
+ * - Retrieve all creatures
+ * - Retrieve a creature by ID
+ * - Create a new creature
+ * - Update an existing creature
+ *
+ * The controller interacts with the CreatureRepository and HabitatRepository
+ * to read and write data to the PostgreSQL database.
+ *
+ * All endpoints return JSON responses and use appropriate HTTP status codes.
+ */
+
 package org.example.monsterbountyserver.controller;
 
 import org.example.monsterbountyserver.entity.Creature;
@@ -40,6 +56,8 @@ public class CreatureController {
         }
     }
 
+
+    // Creates a new creature and assigns it to a default habitat if one does not exist
     @PostMapping
     public ResponseEntity<Creature> createCreature(@RequestBody Map<String, String> body) {
 

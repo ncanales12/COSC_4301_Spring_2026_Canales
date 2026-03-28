@@ -1,3 +1,7 @@
+/*
+ * Habitat entity maps to the habitats table in PostgreSQL.
+ */
+
 package org.example.monsterbountyserver.entity;
 
 import jakarta.persistence.*;

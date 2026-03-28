@@ -1,3 +1,7 @@
+/*
+ * Creature entity maps to the creatures table in PostgreSQL.
+ */
+
 package org.example.monsterbountyserver.entity;
 
 import jakarta.persistence.*;

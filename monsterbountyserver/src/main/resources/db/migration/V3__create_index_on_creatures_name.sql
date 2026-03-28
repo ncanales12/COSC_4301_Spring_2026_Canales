@@ -1,0 +1,1 @@
+CREATE INDEX idx_creatures_name ON creatures(name);
