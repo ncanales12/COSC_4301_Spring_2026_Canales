@@ -95,3 +95,9 @@ Create creature:
 curl -X POST http://localhost:8080/api/creatures \
 -H "Content-Type: application/json" \
 -d '{"name":"Fang","species":"Dire Wolf","dangerLevel":"HIGH"}'
+
+## Health Check
+
+Verify the API is running:
+
+curl http://localhost:8080/health
