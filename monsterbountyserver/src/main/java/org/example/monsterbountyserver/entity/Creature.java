@@ -7,6 +7,11 @@ package org.example.monsterbountyserver.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+/*
+ * Creature entity represents a monster tracked by the system.
+ * Each creature belongs to a habitat and contains information
+ * such as species, danger level, condition, and notes.
+ */
 @Entity
 @Table(name = "creatures")
 public class Creature {

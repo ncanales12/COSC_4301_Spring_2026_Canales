@@ -9,6 +9,13 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "habitats")
+
+/*
+ * Habitat entity represents the environment where creatures live.
+ * It stores biome information, location, and temperature ranges.
+ * Creatures reference a habitat through a foreign key relationship.
+ */
+
 public class Habitat {
 
     @Id
