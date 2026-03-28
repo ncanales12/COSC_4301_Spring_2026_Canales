@@ -85,4 +85,17 @@ public class CreatureController {
 
         return ResponseEntity.ok(creatureRepository.save(creature));
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCreature(@PathVariable Long id) {
+        Optional<Creature> creatureOpt = creatureRepository.findById(id);
+
+        if (creatureOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        creatureRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
 }
