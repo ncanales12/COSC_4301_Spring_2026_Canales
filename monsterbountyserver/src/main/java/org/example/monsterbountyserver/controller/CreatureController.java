@@ -7,6 +7,7 @@
  * - Retrieve a creature by ID
  * - Create a new creature
  * - Update an existing creature
+ * - Delete a creature
  *
  * The controller interacts with the CreatureRepository and HabitatRepository
  * to read and write data to the PostgreSQL database.
@@ -40,13 +41,22 @@ public class CreatureController {
         this.habitatRepository = habitatRepository;
     }
 
+    /*
+     * GET /api/creatures
+     * Returns a list of all creatures
+     */
     @GetMapping
     public List<Creature> getAllCreatures() {
         return creatureRepository.findAll();
     }
 
+    /*
+     * GET /api/creatures/{id}
+     * Returns a single creature by ID
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Creature> getCreatureById(@PathVariable Long id) {
+
         Optional<Creature> creature = creatureRepository.findById(id);
 
         if (creature.isPresent()) {
@@ -56,11 +66,32 @@ public class CreatureController {
         }
     }
 
-
-    // Creates a new creature and assigns it to a default habitat if one does not exist
+    /*
+     * POST /api/creatures
+     * Creates a new creature.
+     * If no habitat exists, a default habitat is automatically created.
+     */
     @PostMapping
     public ResponseEntity<Creature> createCreature(@RequestBody Map<String, String> body) {
 
+        // Validate required fields
+        if (body.get("name") == null || body.get("name").isBlank()) {
+            throw new IllegalArgumentException("Name is required.");
+        }
+
+        if (body.get("species") == null || body.get("species").isBlank()) {
+            throw new IllegalArgumentException("Species is required.");
+        }
+
+        if (body.get("dangerLevel") == null || body.get("dangerLevel").isBlank()) {
+            throw new IllegalArgumentException("Danger level is required.");
+        }
+
+        if (body.get("condition") == null || body.get("condition").isBlank()) {
+            throw new IllegalArgumentException("Condition is required.");
+        }
+
+        // Use existing habitat or create a default one
         Habitat habitat = habitatRepository.findAll().stream().findFirst().orElseGet(() -> {
             Habitat h = new Habitat();
             h.setBiome("FOREST");
@@ -85,6 +116,10 @@ public class CreatureController {
         return ResponseEntity.status(201).body(savedCreature);
     }
 
+    /*
+     * PUT /api/creatures/{id}
+     * Updates an existing creature
+     */
     @PutMapping("/{id}")
     public ResponseEntity<Creature> updateCreature(@PathVariable Long id, @RequestBody Creature updated) {
 
@@ -95,16 +130,25 @@ public class CreatureController {
         }
 
         Creature creature = creatureOpt.get();
+
         creature.setName(updated.getName());
         creature.setSpecies(updated.getSpecies());
         creature.setDangerLevel(updated.getDangerLevel());
         creature.setCondition(updated.getCondition());
         creature.setNotes(updated.getNotes());
 
-        return ResponseEntity.ok(creatureRepository.save(creature));
+        Creature savedCreature = creatureRepository.save(creature);
+
+        return ResponseEntity.ok(savedCreature);
     }
+
+    /*
+     * DELETE /api/creatures/{id}
+     * Deletes a creature
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCreature(@PathVariable Long id) {
+
         Optional<Creature> creatureOpt = creatureRepository.findById(id);
 
         if (creatureOpt.isEmpty()) {
@@ -112,8 +156,8 @@ public class CreatureController {
         }
 
         creatureRepository.deleteById(id);
+
         return ResponseEntity.noContent().build();
     }
-
 
 }
