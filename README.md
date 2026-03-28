@@ -84,3 +84,14 @@ http://localhost:8080
   "notes": "Test creature"
 }
 
+## Example API Calls
+
+Get creatures:
+
+curl http://localhost:8080/api/creatures
+
+Create creature:
+
+curl -X POST http://localhost:8080/api/creatures \
+-H "Content-Type: application/json" \
+-d '{"name":"Fang","species":"Dire Wolf","dangerLevel":"HIGH"}'
