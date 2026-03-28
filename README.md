@@ -1,3 +1,5 @@
+This project implements a REST API for managing creatures and habitats using Spring Boot, PostgreSQL, Flyway migrations, and Docker.
+
 # Monster Bounty Server
 
 A Spring Boot REST API for tracking creatures and habitats in the fictional Neon Ark ecosystem.
