@@ -22,12 +22,16 @@ public class CreatureService {
         this.habitatRepository = habitatRepository;
     }
 
-    public List<Creature> getAllCreatures() {
-        return creatureRepository.findAll();
+    public List<CreatureResponse> getAllCreatures() {
+        return creatureRepository.findAll()
+                .stream()
+                .map(this::toResponse)
+                .toList();
     }
 
-    public Optional<Creature> getCreatureById(Long id) {
-        return creatureRepository.findById(id);
+    public Optional<CreatureResponse> getCreatureById(Long id) {
+        return creatureRepository.findById(id)
+                .map(this::toResponse);
     }
 
     public CreatureResponse createCreature(CreatureRequest request) {
@@ -44,16 +48,19 @@ public class CreatureService {
 
         Creature savedCreature = creatureRepository.save(creature);
 
-        CreatureResponse response = new CreatureResponse();
-        response.id = savedCreature.getId();
-        response.name = savedCreature.getName();
-        response.species = savedCreature.getSpecies();
-        response.dangerLevel = savedCreature.getDangerLevel();
-        response.condition = savedCreature.getCondition();
-        response.notes = savedCreature.getNotes();
-        response.habitatId = savedCreature.getHabitat().getId();
-        response.createdAt = savedCreature.getCreatedAt();
+        return toResponse(savedCreature);
+    }
 
+    private CreatureResponse toResponse(Creature creature) {
+        CreatureResponse response = new CreatureResponse();
+        response.id = creature.getId();
+        response.name = creature.getName();
+        response.species = creature.getSpecies();
+        response.dangerLevel = creature.getDangerLevel();
+        response.condition = creature.getCondition();
+        response.notes = creature.getNotes();
+        response.habitatId = creature.getHabitat().getId();
+        response.createdAt = creature.getCreatedAt();
         return response;
     }
 }

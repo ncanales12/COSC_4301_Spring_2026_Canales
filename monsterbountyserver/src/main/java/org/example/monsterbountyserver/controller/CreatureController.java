@@ -2,7 +2,6 @@ package org.example.monsterbountyserver.controller;
 
 import org.example.monsterbountyserver.dto.CreatureRequest;
 import org.example.monsterbountyserver.dto.CreatureResponse;
-import org.example.monsterbountyserver.entity.Creature;
 import org.example.monsterbountyserver.service.CreatureService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +20,13 @@ public class CreatureController {
     }
 
     @GetMapping
-    public List<Creature> getAllCreatures() {
+    public List<CreatureResponse> getAllCreatures() {
         return creatureService.getAllCreatures();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Creature> getCreatureById(@PathVariable Long id) {
-        Optional<Creature> creature = creatureService.getCreatureById(id);
+    public ResponseEntity<CreatureResponse> getCreatureById(@PathVariable Long id) {
+        Optional<CreatureResponse> creature = creatureService.getCreatureById(id);
 
         if (creature.isPresent()) {
             return ResponseEntity.ok(creature.get());
