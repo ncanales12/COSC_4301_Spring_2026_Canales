@@ -14,95 +14,115 @@ The project demonstrates:
 - Docker containerization
 - DTO and service layer architecture
 
-------------------------------------------------------------
+---
 
-PROJECT STRUCTURE
+# Project Structure
 
+```
 monsterbountyserver
- ├─ src
- │  ├─ main
- │  │  ├─ java/org/example/monsterbountyserver
- │  │  │  ├─ controller
- │  │  │  ├─ dto
- │  │  │  ├─ entity
- │  │  │  ├─ repository
- │  │  │  ├─ service
- │  │  │  └─ exception
- │  │  └─ resources
- │  │     └─ db/migration
- ├─ build.gradle
- ├─ docker-compose.yml
- └─ gradlew
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── org/example/monsterbountyserver
+│   │   │       ├── controller
+│   │   │       ├── dto
+│   │   │       ├── entity
+│   │   │       ├── repository
+│   │   │       ├── service
+│   │   │       └── exception
+│   │   └── resources
+│   │       └── db/migration
+├── build.gradle
+├── docker-compose.yml
+└── gradlew
+```
 
-------------------------------------------------------------
+---
 
-REQUIREMENTS
+# Requirements
 
 You must have the following installed:
 
-Docker  
-Java 17+  
-IntelliJ IDEA or another Java IDE
+- Docker
+- Java 17+
+- IntelliJ IDEA or another Java IDE
 
-------------------------------------------------------------
+---
 
-RUNNING THE APPLICATION
+# Running the Application
 
-1. Start the PostgreSQL database
+## 1. Start the PostgreSQL database
 
-From inside the monsterbountyserver directory run:
+From inside the `monsterbountyserver` directory run:
 
+```
 docker compose up -d
+```
 
 This starts a PostgreSQL container with the following configuration:
 
-Database: tutorial  
-Username: tutorial  
-Password: tutorial  
+```
+Database: tutorial
+Username: tutorial
+Password: tutorial
 Port: 5436
+```
 
-------------------------------------------------------------
+---
 
-2. Start the Spring Boot application
+## 2. Start the Spring Boot application
 
 Run the application using IntelliJ:
 
+```
 MonsterbountyserverApplication.java
+```
 
 or using Gradle:
 
+```
 ./gradlew bootRun
+```
 
 When the application starts it will:
 
-• connect to PostgreSQL  
-• run Flyway migrations  
-• create the database schema  
+- connect to PostgreSQL
+- run Flyway migrations
+- create the database schema
 
 The API will be available at:
 
+```
 http://localhost:8080
+```
 
-------------------------------------------------------------
+---
 
-API ENDPOINTS
+# API Endpoints
 
-CREATURES
+## Creatures
 
 Get all creatures
 
+```
 GET /api/creatures
+```
 
 Get creature by ID
 
+```
 GET /api/creatures/{id}
+```
 
 Create a creature
 
+```
 POST /api/creatures
+```
 
 Example request body:
 
+```json
 {
   "name": "Hydra",
   "species": "Mythical Beast",
@@ -111,49 +131,58 @@ Example request body:
   "notes": "Example creature",
   "habitatId": 1
 }
+```
 
-------------------------------------------------------------
+---
 
-HABITATS
+## Habitats
 
 Get all habitats
 
+```
 GET /api/habitats
+```
 
 Get habitat by ID
 
+```
 GET /api/habitats/{id}
+```
 
-------------------------------------------------------------
+---
 
-HEALTH CHECK
+# Health Check
 
+```
 GET /health
+```
 
 Returns application status.
 
-------------------------------------------------------------
+---
 
-DATABASE MIGRATIONS
+# Database Migrations
 
 Database schema is managed using Flyway.
 
 Migration files are located in:
 
+```
 src/main/resources/db/migration
+```
 
 Flyway runs automatically when the application starts.
 
-------------------------------------------------------------
+---
 
-SUMMARY
+# Summary
 
 This project implements a REST API using:
 
-• Spring Boot  
-• PostgreSQL  
-• Flyway  
-• Docker  
-• DTO and service layers  
+- Spring Boot
+- PostgreSQL
+- Flyway
+- Docker
+- DTO and service layers
 
 The application provides endpoints for managing creatures and their habitats while demonstrating modern Java backend development practices.
