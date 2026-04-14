@@ -45,6 +45,7 @@ public class CreatureService {
         creature.setCondition(request.condition);
         creature.setNotes(request.notes);
         creature.setHabitat(habitat);
+        creature.setCreatedAt(java.time.LocalDateTime.now());
 
         Creature savedCreature = creatureRepository.save(creature);
 
