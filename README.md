@@ -1,103 +1,159 @@
-This project implements a REST API for managing creatures and habitats using Spring Boot, PostgreSQL, Flyway migrations, and Docker.
-
 # Monster Bounty Server
+COSC 4301 – Modern Programming  
+Spring 2026  
+Author: Nicolas Canales
 
-A Spring Boot REST API for tracking creatures and habitats in the fictional Neon Ark ecosystem.
+This project is a Spring Boot REST API for managing creatures and their habitats.  
+The application uses PostgreSQL for persistence and Flyway for database migrations.
 
-This project demonstrates modern backend development practices including:
+The project demonstrates:
 
-- Spring Boot REST APIs
+- Spring Boot REST API development
 - PostgreSQL database integration
-- JPA/Hibernate ORM
 - Flyway database migrations
-- Dockerized database environment
-- Centralized exception handling
-- RESTful API design
+- Docker containerization
+- DTO and service layer architecture
 
----
+------------------------------------------------------------
 
-# Tech Stack
+PROJECT STRUCTURE
 
-Java 17  
-Spring Boot  
-Spring Data JPA  
-PostgreSQL  
-Flyway  
-Docker
+monsterbountyserver
+ ├─ src
+ │  ├─ main
+ │  │  ├─ java/org/example/monsterbountyserver
+ │  │  │  ├─ controller
+ │  │  │  ├─ dto
+ │  │  │  ├─ entity
+ │  │  │  ├─ repository
+ │  │  │  ├─ service
+ │  │  │  └─ exception
+ │  │  └─ resources
+ │  │     └─ db/migration
+ ├─ build.gradle
+ ├─ docker-compose.yml
+ └─ gradlew
 
----
+------------------------------------------------------------
 
-# Running the Project
+REQUIREMENTS
 
-## 1. Start Docker
+You must have the following installed:
 
-Make sure Docker Desktop is running.
+Docker  
+Java 17+  
+IntelliJ IDEA or another Java IDE
 
-Start the PostgreSQL database container:
+------------------------------------------------------------
+
+RUNNING THE APPLICATION
+
+1. Start the PostgreSQL database
+
+From inside the monsterbountyserver directory run:
 
 docker compose up -d
----
 
-## 2. Start the Spring Boot Application
+This starts a PostgreSQL container with the following configuration:
 
-Run the application using Gradle:
+Database: tutorial  
+Username: tutorial  
+Password: tutorial  
+Port: 5436
 
-docker compose up -d
+------------------------------------------------------------
 
-The API will start on:
+2. Start the Spring Boot application
+
+Run the application using IntelliJ:
+
+MonsterbountyserverApplication.java
+
+or using Gradle:
+
+./gradlew bootRun
+
+When the application starts it will:
+
+• connect to PostgreSQL  
+• run Flyway migrations  
+• create the database schema  
+
+The API will be available at:
+
 http://localhost:8080
 
+------------------------------------------------------------
 
----
+API ENDPOINTS
 
-# API Endpoints
+CREATURES
 
-## Creatures
+Get all creatures
 
-| Method | Endpoint | Description |
-|------|------|------|
-| GET | `/api/creatures` | Get all creatures |
-| GET | `/api/creatures/{id}` | Get creature by ID |
-| POST | `/api/creatures` | Create creature |
-| PUT | `/api/creatures/{id}` | Update creature |
-| DELETE | `/api/creatures/{id}` | Delete creature |
+GET /api/creatures
 
----
+Get creature by ID
 
-## Habitats
+GET /api/creatures/{id}
 
-| Method | Endpoint | Description |
-|------|------|------|
-| GET | `/api/habitats` | Get all habitats |
-| GET | `/api/habitats/{id}` | Get habitat by ID |
+Create a creature
 
----
+POST /api/creatures
 
-# Example Creature JSON
+Example request body:
 
-```json
 {
-  "name": "Goblin King",
-  "species": "Monster",
+  "name": "Hydra",
+  "species": "Mythical Beast",
   "dangerLevel": "HIGH",
-  "condition": "CRITICAL",
-  "notes": "Test creature"
+  "condition": "STABLE",
+  "notes": "Example creature",
+  "habitatId": 1
 }
 
-## Example API Calls
+------------------------------------------------------------
 
-Get creatures:
+HABITATS
 
-curl http://localhost:8080/api/creatures
+Get all habitats
 
-Create creature:
+GET /api/habitats
 
-curl -X POST http://localhost:8080/api/creatures \
--H "Content-Type: application/json" \
--d '{"name":"Fang","species":"Dire Wolf","dangerLevel":"HIGH"}'
+Get habitat by ID
 
-## Health Check
+GET /api/habitats/{id}
 
-Verify the API is running:
+------------------------------------------------------------
 
-curl http://localhost:8080/health
+HEALTH CHECK
+
+GET /health
+
+Returns application status.
+
+------------------------------------------------------------
+
+DATABASE MIGRATIONS
+
+Database schema is managed using Flyway.
+
+Migration files are located in:
+
+src/main/resources/db/migration
+
+Flyway runs automatically when the application starts.
+
+------------------------------------------------------------
+
+SUMMARY
+
+This project implements a REST API using:
+
+• Spring Boot  
+• PostgreSQL  
+• Flyway  
+• Docker  
+• DTO and service layers  
+
+The application provides endpoints for managing creatures and their habitats while demonstrating modern Java backend development practices.
